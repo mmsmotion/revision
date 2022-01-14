@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryObserver
 {
@@ -15,7 +16,7 @@ class CategoryObserver
      */
     public function created(Category $category)
     {
-//        logger(" create category");
+        logger($category->title." is created by ". Auth::user()->name);
     }
 
     /**
