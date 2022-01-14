@@ -27,7 +27,8 @@ class CategoryObserver
      */
     public function updated(Category $category)
     {
-        //
+        logger($category->title." is update by ". Auth::user()->name);
+
     }
 
     /**
@@ -38,7 +39,8 @@ class CategoryObserver
      */
     public function deleted(Category $category)
     {
-        //
+        logger($category->title." is deleted by ". Auth::user()->name);
+
     }
 
     /**
