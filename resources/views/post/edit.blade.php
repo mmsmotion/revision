@@ -31,13 +31,35 @@
 
 
                             <div class="mb-3">
-                                <label>Post Title</label>
+
+                                <label>Post Category</label>
                                 <select type="text" name="category"  class="form-select @error('category') is-invalid @enderror">
                                     @foreach(\App\Models\Category::all() as $category)
                                         <option value="{{ $category->id }}" {{ old('category',$post->category_id) ==  $category->id ? 'selected' : '' }}>{{ $category->title }}</option>
                                     @endforeach
                                 </select>
                                 @error('category')
+                                <p class="text-danger small mt-2">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">Post Tags</label>
+                                <br>
+                                @foreach(\App\Models\Tag::all() as $tag)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" {{ in_array($tag->id,old('tags',$post->tags->pluck('id')->toArray())) ? 'checked' : '' }} name="tags[]" value="{{ $tag->id }}" id="tag{{ $tag->id }}">
+                                        <label class="form-check-label" for="tag{{ $tag->id }}">
+                                            {{ $tag->title }}
+                                        </label>
+                                    </div>
+                                @endforeach
+
+                                @error('tags')
+                                <p class="text-danger small mt-2">{{ $message }}</p>
+                                @enderror
+                                @error('tags.*')
                                 <p class="text-danger small mt-2">{{ $message }}</p>
                                 @enderror
                             </div>

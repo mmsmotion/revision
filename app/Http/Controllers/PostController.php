@@ -7,7 +7,10 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\Photo;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -22,16 +25,11 @@ class PostController extends Controller
      */
     public function index()
     {
+
+
         $posts = Post::when(Auth::user()->role == 1,function ($query){
             $query->where("user_id",Auth::id());
-        })
-        ->when(isset(request()->search),function ($query){
-
-            $keyword = request()->search;
-
-            $query->orWhere('title','like','%'.$keyword.'%')->orWhere('description','like',"%$keyword%");
-
-        })->with(['user','category','photos'])->latest("id")->paginate(7);
+        })->search()->latest("id")->paginate(7);
 
         return view('post.index',compact('posts'));
 
@@ -62,8 +60,13 @@ class PostController extends Controller
             Storage::makeDirectory("public/thumbnail");
         }
 
+//        DB::transaction(function () use ($request){
+//
+//        DB::beginTransaction();
+//
+//        try{
 
-//        return $request;
+
 
 
         $post = new Post();
@@ -76,9 +79,14 @@ class PostController extends Controller
         $post->isPublish = '1';
         $post->save();
 
-        if($request->hasFile('photo')){
 
-            foreach ($request->file('photo') as $photo){
+
+
+        $post->tags()->attach($request->tags);
+
+        if($request->hasFile('photos')){
+
+            foreach ($request->file('photos') as $photo){
 
                 $newName = uniqid()."_photo.".$photo->extension();
                 $photo->storeAs('public/photo',$newName);
@@ -97,6 +105,16 @@ class PostController extends Controller
 
         }
 
+//        DB::commit();
+
+//        }catch (\Exception $e){
+//            DB::rollBack();
+//            throw $e;
+//        }
+
+//        });
+
+
 //        return $request;
 
 
@@ -112,7 +130,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return $post;
+        return $post->tags;
         return view('post.show',compact('post'));
     }
 
@@ -124,7 +142,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-
+//        return [$post,$post->tags];
         Gate::authorize('view',$post);
         return view('post.edit',compact('post'));
 
@@ -149,6 +167,9 @@ class PostController extends Controller
 
         $post->update();
 
+        $post->tags()->detach();
+        $post->tags()->attach($request->tags);
+
         return redirect()->route('post.index')->with("status","post updated");
     }
 
@@ -160,12 +181,18 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+
+//        return $post;
+
         Gate::authorize('delete',$post);
 
         foreach ($post->photos as $photo){
             Storage::delete('public/photo/'.$photo->name);
             Storage::delete('public/thumbnail/'.$photo->name);
         }
+
+        // delete pivot records
+        $post->tags()->detach();
 
         // delete db records
         $post->photos()->delete();

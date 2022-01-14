@@ -41,6 +41,7 @@
                                 <th class="w-25">Title</th>
                                 <th>photo</th>
                                 <th>Category</th>
+                                <th>Tags</th>
                                 @if(Auth::user()->role == 0)
                                 <th>Owner</th>
                                 @endif
@@ -55,7 +56,7 @@
                                         <td>{{ $post->id }}</td>
                                         <td>{{ $post->title }}</td>
                                         <td>
-                                            @forelse($post->photos()->latest('id')->limit(3)->get() as $photo)
+                                            @forelse($post->photos as $photo)
                                                 <a class="my-link" data-gall="gall{{ $post->id }}" href="{{ asset('storage/photo/'.$photo->name) }}">
                                                     <img src="{{ asset('storage/thumbnail/'.$photo->name) }}" height="40" alt="image alt"/>
                                                 </a>
@@ -68,6 +69,14 @@
                                             <span class="badge bg-primary">
                                                 {{ $post->category->title }}
                                             </span>
+                                        </td>
+                                        <td>
+                                            @foreach($post->tags as $tag)
+                                                <span class="badge bg-secondary small rounded-pill">
+                                                    <i class="fas fa-hashtag"></i>
+                                                    {{ $tag->title }}
+                                                </span>
+                                            @endforeach
                                         </td>
                                         @if(Auth::user()->role == 0)
                                         <td>{{ $post->user->name }}</td>
