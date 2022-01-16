@@ -130,7 +130,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return $post->tags;
+        return $post;
         return view('post.show',compact('post'));
     }
 
