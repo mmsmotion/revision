@@ -37,4 +37,11 @@ class StorePostRequest extends FormRequest
 
         ];
     }
+
+    public function messages()
+    {
+        return [
+          "title.required" => "ခေါင်စဥ်ထည့်လေကွာ"
+        ];
+    }
 }

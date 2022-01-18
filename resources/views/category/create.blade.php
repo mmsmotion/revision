@@ -10,6 +10,7 @@
                     </div>
                     <div class="card-body">
 
+
                         <form action="{{ route('category.store') }}" class="mb-3" method="post">
                             @csrf
 

@@ -16,7 +16,7 @@ class CategoryObserver
      */
     public function created(Category $category)
     {
-        logger($category->title." is created by ". auth()->user()->name);
+//        logger($category->title." is created by ". auth()->user()->name);
     }
 
     /**

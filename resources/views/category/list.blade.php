@@ -3,6 +3,7 @@
     <tr>
         <th>#</th>
         <th>Title</th>
+        <th>photo</th>
         <th>Owner</th>
         <th>Control</th>
         <th>Created_At</th>
@@ -14,6 +15,9 @@
         <tr>
             <td>{{ $category->id }}</td>
             <td>{{ $category->title }}</td>
+            <td>
+                {{ $category->photos }}
+            </td>
             <td>{{ $category->user->name }}</td>
             <td>
 

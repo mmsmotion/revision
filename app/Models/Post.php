@@ -12,6 +12,10 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $attributes = [
+        'user_id' => false,
+    ];
+
     protected $with = ['user','category','photos','tags'];
 
     public function user(){

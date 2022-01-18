@@ -34,12 +34,13 @@
                     <ul class="navbar-nav me-auto">
                         @auth
                         <li class="nav-item ">
-                            <a href="{{ route('home') }}" class="nav-link {{ request()->url() == route('home') ? 'active' : '' }}">Home</a>
+                            <x-nav-link name="home">Home</x-nav-link>
                         </li>
 
                         @isAdmin
                         <li class="nav-item ">
-                            <a href="{{ route('category.create') }}" class="nav-link {{ request()->url() == route('category.create') ? 'active' : '' }}" >Manage Category</a>
+                            <x-nav-link name="category.create">Manage Category</x-nav-link>
+
                         </li>
                         @endisAdmin
 
@@ -49,10 +50,12 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li>
-                                    <a href="{{ route('post.create') }}" class="dropdown-item {{ request()->url() == route('post.create') ? 'active' : '' }}" >Creat Post</a>
+                                    <x-nav-link name="post.create">Post Create</x-nav-link>
+
                                 </li>
                                 <li>
-                                    <a href="{{ route('post.index') }}" class="dropdown-item {{ request()->url() == route('post.index') ? 'active' : '' }}" >Post List</a>
+                                    <x-nav-link name="post.index">Post List</x-nav-link>
+
                                 </li>
                             </ul>
                         </li>

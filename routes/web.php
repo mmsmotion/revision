@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get("/abc",function (){
+    return "abc";
+});
+
 Auth::routes();
 
 Route::middleware('auth')->group(function(){

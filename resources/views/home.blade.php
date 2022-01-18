@@ -14,9 +14,9 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
 
-                    {!! "<h1>test</h1>" !!}
+                        <x-alert class="p-5" type="danger">San Kyi tar</x-alert>
+                        <x-alert class="p-1">Aye say pal</x-alert>
 
 
 

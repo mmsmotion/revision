@@ -18,13 +18,7 @@
                             @csrf
 
 
-                            <div class="mb-3">
-                                <label>Post Title</label>
-                                <input type="text" name="title" value="{{ old('title') }}" class="form-control @error('title') is-invalid @enderror">
-                                @error('title')
-                                <p class="text-danger small mt-2">{{ $message }}</p>
-                                @enderror
-                            </div>
+                            <x-input name="title" input-label="Post Title"></x-input>
 
 
                             <div class="mb-3">
